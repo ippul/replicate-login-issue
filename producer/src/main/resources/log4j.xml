@@ -10,11 +10,7 @@
     </layout>
   </appender>
 
-  <logger name="com.ippul.example" additivity="false">
-    <level value="info"/>
-    <appender-ref ref="console"/>
-  </logger>
-  <logger name="org.keycloak" additivity="false">
+  <logger name="com.ippul.example" additivity="true">
     <level value="info"/>
     <appender-ref ref="console"/>
   </logger>
