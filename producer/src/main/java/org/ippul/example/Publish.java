@@ -19,7 +19,7 @@ public class Publish {
         for(int count = 0; count < 6; count ++) {
             final String messageBody = "Test JMS Message " + UUID.randomUUID().toString();
             final TextMessage message = session.createTextMessage(messageBody);
-            LOGGER.info("Sending message numebr {} with body {}", count, message);
+            LOGGER.info("Sending message numebr {} with body {}", count, messageBody);
             producer.send(message);
             LOGGER.info("wait 10s...");
             Thread.sleep(10000l);
