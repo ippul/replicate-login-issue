@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration status="DEBUG" monitorInterval="30">
-  <Properties>
-    <Property name="LOG_PATTERN">%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ} %p %m%n</Property>
-  </Properties>
-  <Appenders>
-    <Console name="Console" target="SYSTEM_OUT" follow="true">
-      <PatternLayout pattern="${LOG_PATTERN}"/>
-    </Console>
-  </Appenders>
-  <Loggers>
-    <Logger name="org.ippul.example" additivity="false" level="info">
-      <AppenderRef ref="console"/>
-    </Logger>
-
-    <Root level="info" additivity="false">
-      <AppenderRef ref="console"/>
-    </Root>
-  </Loggers>
+<Configuration status="DEBUG">
+<Appenders>
+  <Console name="ConsoleAppender" target="SYSTEM_OUT">
+    <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+  </Console>
+</Appenders>
+<Loggers>
+  <!-- avoid duplicated logs with additivity=false -->
+  <Logger name="org.ippul.example" level="debug" additivity="false">
+    <AppenderRef ref="ConsoleAppender"/>
+  </Logger>
+  <Root level="info">
+    <AppenderRef ref="ConsoleAppender"/>
+  </Root>
+</Loggers>
 </Configuration>
