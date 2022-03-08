@@ -3,11 +3,11 @@ package org.ippul.example;
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
 import javax.jms.*;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Publish {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Publish.class);
+    private static final Logger LOGGER = LogManager.getLogger(Publish.class);
 
     public static void main(String[] args) throws Exception {
         final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://ex-aao-hdls-svc:61616", "ippul", "Pa$$w0rd");
