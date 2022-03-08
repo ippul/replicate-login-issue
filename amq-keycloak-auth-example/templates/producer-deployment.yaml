@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: replicate-login-issue-git
+      app: rproducer-replicate-login-issue
   template:
     metadata:
       creationTimestamp: null
