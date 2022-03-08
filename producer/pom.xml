@@ -75,6 +75,7 @@
       <dependency>
           <groupId>org.jboss.resteasy</groupId>
           <artifactId>resteasy-client</artifactId>
+          <version>4.7.2.Final-redhat-00001</version>
       </dependency>
       <dependency>
           <groupId>org.jboss.resteasy</groupId>
