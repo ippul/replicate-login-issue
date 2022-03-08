@@ -7,7 +7,7 @@ spec:
     username: "ippul"
     firstName: "myFirstname"
     lastName: "myLastname"
-    email: "ippul@arandommail.com"
+    email: "ippul@keycloak.com"
     enabled: True
     emailVerified: False
     credentials:
