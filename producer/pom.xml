@@ -15,20 +15,6 @@
 
   <dependencyManagement>
     <dependencies>
-      <!-- <dependency>
-        <groupId>org.keycloak.bom</groupId>
-        <artifactId>keycloak-adapter-bom</artifactId>
-        <version>15.0.2.redhat-00001</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency> -->
-      <!-- <dependency>
-        <groupId>org.jboss.bom</groupId>
-        <artifactId>jboss-eap-jakartaee8-with-tools</artifactId>
-        <version>${version.server.bom}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency> -->
       <dependency>
         <groupId>org.apache.activemq</groupId>
         <artifactId>artemis-pom</artifactId>
@@ -109,7 +95,7 @@
                   </execution>
               </executions>
           </plugin>
-          <!-- <plugin>
+          <plugin>
               <artifactId>maven-jar-plugin</artifactId>
               <version>3.0.2</version>
               <executions>
@@ -118,7 +104,7 @@
                       <phase>none</phase>
                   </execution>
               </executions>
-          </plugin> -->
+          </plugin>
       </plugins>
   </build>
 </project>
