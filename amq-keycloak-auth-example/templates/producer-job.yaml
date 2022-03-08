@@ -1,0 +1,16 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: producer-replicate-login-issue
+spec:
+  template:
+    metadata:
+      name: producer-replicate-login-issue
+    spec:
+      containers:
+        - name: producer-replicate-login-issue
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/example-1/producer-replicate-login-issue:latest
+          command:
+            - /opt/jboss/container/java/run/run-java.sh
+      restartPolicy: Never

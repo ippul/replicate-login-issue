@@ -25,3 +25,49 @@ spec:
   realmSelector:
      matchLabels:
       realm: amq-sso-realm
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
+  name: {{ .Release.Namespace }}-admin-user
+spec:
+  user:
+    username: "admin"
+    firstName: "adminFirstname"
+    lastName: "adminLastname"
+    email: "admin@keycloak.com"
+    enabled: True
+    emailVerified: False
+    credentials:
+      - type: "password"
+        value: "Pa$$w0rd"
+    realmRoles:
+      - "offline_access"
+    clientRoles:
+      account:
+        - manage-account
+      realm-management:
+        - create-client
+        - impersonation
+        - manage-authorization
+        - manage-clients
+        - manage-events
+        - manage-identity-providers
+        - manage-realm
+        - query-clients
+        - query-groups
+        - query-realms
+        - query-users
+        - realm-admin
+        - view-authorization
+        - view-clients
+        - view-events
+        - view-identity-providers
+        - view-realm
+        - view-users
+        - manage-users
+      amq-broker:
+        - "admin"
+  realmSelector:
+     matchLabels:
+      realm: amq-sso-realm
