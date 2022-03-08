@@ -1,0 +1,41 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: producer-replicate-login-issue
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: replicate-login-issue-git
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: producer-replicate-login-issue
+        deploymentconfig: producer-replicate-login-issue
+    spec:
+      containers:
+        - name: producer-replicate-login-issue
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/example-1/producer-replicate-login-issue:latest
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 8443
+              protocol: TCP
+            - containerPort: 8778
+              protocol: TCP
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600

@@ -1,0 +1,36 @@
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: producer-replicate-login-issue
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'producer-replicate-login-issue:latest'
+  successfulBuildsHistoryLimit: 5
+  failedBuildsHistoryLimit: 5
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'java:openjdk-11-el7'
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/ippul/replicate-login-issue.git'
+    contextDir: /producer
+  triggers:
+    - type: Generic
+      generic:
+        secretReference:
+          name: replicate-login-issue-git-generic-webhook-secret
+    - type: GitHub
+      github:
+        secretReference:
+          name: replicate-login-issue-git-github-webhook-secret
+    - type: ImageChange
+      imageChange: {}
+    - type: ConfigChange
+  runPolicy: Serial
