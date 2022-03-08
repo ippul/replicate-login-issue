@@ -1,0 +1,27 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: amq-broker
+  labels:
+    app: sso
+spec:
+  roles:
+    - name: admin
+      clientRole: true
+  client:
+    defaultClientScopes:
+      - roles
+    enabled: true
+    clientAuthenticatorType: client-secret
+    clientId: amq-broker
+    name: amq-broker
+    publicClient: false
+    authorizationServicesEnabled: false
+    directAccessGrantsEnabled: true
+    protocol: "openid-connect"
+    serviceAccountsEnabled: true
+    standardFlowEnabled: false
+    secret: 4393af74-52c9-11ec-bf63-0242ac130002
+  realmSelector:
+     matchLabels:
+      realm: amq-sso-realm

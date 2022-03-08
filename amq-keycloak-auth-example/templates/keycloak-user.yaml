@@ -1,0 +1,27 @@
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
+  name: {{ .Release.Namespace }}-user
+spec:
+  user:
+    username: "ippul"
+    firstName: "myFirstname"
+    lastName: "myLastname"
+    email: "ippul@arandommail.com"
+    enabled: True
+    emailVerified: False
+    credentials:
+      - type: "password"
+        value: "Pa$$w0rd"
+    realmRoles:
+      - "offline_access"
+    clientRoles:
+      account:
+        - "manage-account"
+      realm-management:
+        - "manage-users"
+      amq-broker:
+        - "admin"
+  realmSelector:
+     matchLabels:
+      realm: amq-sso-realm
