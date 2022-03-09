@@ -83,35 +83,56 @@
       <plugins>
           <plugin>
               <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-assembly-plugin</artifactId>
-              <version>3.1.1</version>
-              <configuration>
-                  <descriptorRefs>
-                      <descriptorRef>jar-with-dependencies</descriptorRef>
-                  </descriptorRefs>
-                  <archive>
-                      <manifest>
-                          <mainClass>org.ippul.example.Publish</mainClass>
-                      </manifest>
-                  </archive>
-              </configuration>
+              <artifactId>maven-shade-plugin</artifactId>
+              <version>3.2.4</version>
               <executions>
                   <execution>
-                      <id>make-assembly</id>
-                      <phase>package</phase>
                       <goals>
-                          <goal>single</goal>
+                          <goal>shade</goal>
                       </goals>
+                      <configuration>
+                          <finalName>jar-with-dependencies</finalName>
+                          <shadedArtifactAttached>true</shadedArtifactAttached>
+                          <transformers>
+                              <!-- need this to merge the services files properly -->
+                              <transformer
+                                      implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                              <!-- add Main-Class to manifest file -->
+                              <transformer
+                                      implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                  <mainClass>org.ippul.example.Publish</mainClass>
+                              </transformer>
+                          </transformers>
+                          <!-- add this to prevent some security issues when merging everything together -->
+                          <filters>
+                              <filter>
+                                  <artifact>*:*</artifact>
+                                  <excludes>
+                                      <exclude>META-INF/*.SF</exclude>
+                                      <exclude>META-INF/*.DSA</exclude>
+                                      <exclude>META-INF/*.RSA</exclude>
+                                  </excludes>
+                              </filter>
+                          </filters>
+                      </configuration>
                   </execution>
               </executions>
           </plugin>
           <plugin>
-              <artifactId>maven-jar-plugin</artifactId>
-              <version>3.0.2</version>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-antrun-plugin</artifactId>
+              <version>1.8</version>
               <executions>
                   <execution>
-                      <id>default-jar</id>
-                      <phase>none</phase>
+                      <phase>package</phase>
+                      <goals>
+                          <goal>run</goal>
+                      </goals>
+                      <configuration>
+                          <target>
+                              <delete file="${project.build.directory}/producer-1.0.0.jar"/>
+                          </target>
+                      </configuration>
                   </execution>
               </executions>
           </plugin>
