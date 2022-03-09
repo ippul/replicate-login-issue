@@ -38,6 +38,8 @@ public class Example {
                     .users().search("ippul").get(0).getId();
         List<UserSessionRepresentation> userSessions = keycloak.realm("amq-sso-realm")
                 .users().get(userId).getUserSessions();
+
+
         System.out.println(userSessions.size());
     }
 

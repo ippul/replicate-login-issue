@@ -47,7 +47,7 @@ public class Publish {
 
     private static void logRHSSOSession(){
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("https://keycloak:8443/auth") //KEYCLOAK_SERVICE_HOST
+                .serverUrl("https://keycloak.example-1.svc:8443/auth") //KEYCLOAK_SERVICE_HOST
                 .grantType(OAuth2Constants.PASSWORD)
                 .realm("amq-sso-realm")
                 .clientId("admin-cli")
@@ -55,7 +55,7 @@ public class Publish {
                 .password("Pa$$w0rd")
                 .resteasyClient(
                         new ResteasyClientBuilder()
-                                .sslContext(getSSLContext("https://keycloak:8443/auth"))
+                                .sslContext(getSSLContext("https://keycloak.example-1.svc:8443/auth"))
                                 .connectionPoolSize(10).build()
                 ).build();
         String userId = keycloak.realm("amq-sso-realm")
