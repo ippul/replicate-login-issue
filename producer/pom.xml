@@ -38,14 +38,15 @@
 <!--      </dependency>-->
       <dependency>
           <groupId>org.keycloak</groupId>
-          <artifactId>keycloak-authz-client</artifactId>
+          <artifactId>keycloak-admin-client</artifactId>
           <version>15.0.2.redhat-00001</version>
       </dependency>
       <dependency>
           <groupId>org.keycloak</groupId>
-          <artifactId>keycloak-admin-client</artifactId>
+          <artifactId>keycloak-authz-client</artifactId>
           <version>15.0.2.redhat-00001</version>
       </dependency>
+
       <dependency>
           <groupId>org.apache.activemq</groupId>
           <artifactId>artemis-server</artifactId>
