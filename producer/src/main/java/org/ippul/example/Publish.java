@@ -1,14 +1,6 @@
 package org.ippul.example;
 
 import org.apache.activemq.artemis.jms.client.ActiveMQConnectionFactory;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.keycloak.OAuth2Constants;
-import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.representations.idm.UserSessionRepresentation;
-
 import javax.jms.*;
 import javax.net.ssl.*;
 import java.io.IOException;
@@ -20,9 +12,17 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
+import org.keycloak.OAuth2Constants;
+import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.KeycloakBuilder;
+import org.keycloak.representations.idm.UserSessionRepresentation;
+
 public class Publish {
     private static final Logger LOGGER = LogManager.getLogger(Publish.class);
-
+    
     private static final Keycloak KEYCLOAK = KeycloakBuilder.builder()
             .serverUrl("https://keycloak." + System.getenv("OPENSHIFT_BUILD_NAMESPACE") + ".svc:8443/auth") //KEYCLOAK_SERVICE_HOST
             .grantType(OAuth2Constants.PASSWORD)
@@ -33,13 +33,12 @@ public class Publish {
             .resteasyClient(
                     new ResteasyClientBuilder()
                             .sslContext(getSSLContext("https://keycloak." + System.getenv("OPENSHIFT_BUILD_NAMESPACE") + ".svc:8443/auth"))
-                            .connectionPoolSize(1).build()
+                            .connectionPoolSize(10).build()
             ).build();
 
     public static void main(String[] args) throws Exception {
         final String userIdToMonitor = KEYCLOAK.realm("amq-sso-realm")
                 .users().search("ippul").get(0).getId();
-        cleanRHSSOSession(userIdToMonitor);
         final ConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://ex-aao-hdls-svc:61616", "ippul", "Pa$$w0rd");
         final Connection connection = connectionFactory.createConnection();
         connection.start();
@@ -65,15 +64,6 @@ public class Publish {
         List<UserSessionRepresentation> userSessions = KEYCLOAK.realm("amq-sso-realm")
                 .users().get(userIdToMonitor).getUserSessions();
         LOGGER.info("{} active session for user ippul", userSessions.size());
-    }
-
-    private static void cleanRHSSOSession(String userIdToMonitor){
-        List<UserSessionRepresentation> userSessions = KEYCLOAK.realm("amq-sso-realm")
-                .users().get(userIdToMonitor).getUserSessions();
-        for(UserSessionRepresentation userSession : userSessions) {
-            LOGGER.info("Deleting session with id {}", userSession.getId());
-            KEYCLOAK.realm("amq-sso-realm").deleteSession(userSession.getId());
-        }
     }
 
     public static SSLContext getSSLContext(String url) {
