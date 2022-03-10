@@ -51,8 +51,8 @@ public class Publish {
             LOGGER.info("Sending message number {} with body {}", count, messageBody);
             producer.send(message);
             logRHSSOSession(userIdToMonitor);
-            LOGGER.info("wait 10 seconds...");
-            Thread.sleep(10000l);
+            LOGGER.info("wait 60 seconds...");
+            Thread.sleep(60000l);
         }
         session.close();
         connection.close();
